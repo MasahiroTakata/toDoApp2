@@ -1,0 +1,63 @@
+.container{
+  padding: 8px;
+  margin: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.todoText{
+  font: 15px/24px sans-serif;
+	box-sizing: border-box;
+	width: 30%;
+	padding: 0.3em;
+	transition: 0.3s;
+	letter-spacing: 1px;
+	color: #000;
+	border: 1px solid #1b2538;
+	border-radius: 4px;
+}
+
+button {
+  padding: 0;
+  font-family: inherit;
+  appearance: none;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+
+.submitBtn{
+  margin-left:1%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 320px;
+  padding: 8px 24px;
+  font-family: sans-serif;
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
+  overflow-wrap: anywhere;
+  background-color: #6fa24a;
+  border-radius: 32px;
+}
+
+.todoList{
+  display: flex;
+  padding-bottom: 2%;
+}
+
+.pTodo{
+  margin-right: 5%;
+  width: 30%;
+}
+
+@media (any-hover: hover) {
+  .submitBtn {
+    transition: background-color 0.2s;
+  }
+
+  .submitBtn:hover {
+    background-color: #54802f;
+  }
+}
