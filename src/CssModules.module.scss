@@ -1,3 +1,10 @@
+li{
+  list-style:none;
+}
+
+.allTaskSpace{
+  display: flex;
+}
 .container{
   padding: 8px;
   margin: 8px;
@@ -5,25 +12,35 @@
   align-items: center;
 }
 
+.toTaskSpace{
+  width: 25%;
+}
+
+.notTouch{
+  height: 50px;
+  background-color: #ffa500;
+  margin-left: 8px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+
+}
+
+.notTouchLetter{
+  padding-left: 10px;
+  color: white;
+  line-height: 50px;
+}
+
 .todoText{
   font: 15px/24px sans-serif;
 	box-sizing: border-box;
-	width: 30%;
+	width: 50%;
 	padding: 0.3em;
 	transition: 0.3s;
 	letter-spacing: 1px;
 	color: #000;
 	border: 1px solid #1b2538;
 	border-radius: 4px;
-}
-
-button {
-  padding: 0;
-  font-family: inherit;
-  appearance: none;
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
 }
 
 .submitBtn{
@@ -38,18 +55,27 @@ button {
   color: #fff;
   text-align: center;
   overflow-wrap: anywhere;
-  background-color: #6fa24a;
-  border-radius: 32px;
+  background-color: #ffa500;
+  border-radius: 27px;
 }
 
-.todoList{
-  display: flex;
-  padding-bottom: 2%;
+.taskSpace{
+  height: 60px;
+  border-left: 6px solid #ffa500;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  margin-bottom: 10px;
+  margin-right: 8px;
+  border-radius: 4px;
 }
 
 .pTodo{
   margin-right: 5%;
-  width: 30%;
+  width: 100%;
+  line-height: 60px;
+  font-size: 1.0em;
+  padding-left: 2%;
 }
 
 @media (any-hover: hover) {
