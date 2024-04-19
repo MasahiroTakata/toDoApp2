@@ -2,7 +2,10 @@ import classes from './CssModules.module.scss';
 import './App.css';
 import { useState } from 'react';
 import { ChakraProvider, Input, Button, Text, Flex, extendTheme } from "@chakra-ui/react";
-// import { useDroppable } from "@dnd-kit/core";
+import { useDroppable } from "@dnd-kit/core";
+import { Draggable } from './Draggable';
+import { Droppable } from './Droppable';
+import { DndContext } from '@dnd-kit/core';
 
 const theme = extendTheme({
   colors: {
@@ -13,6 +16,20 @@ const theme = extendTheme({
 });
 
 function App() {
+  const containers = ['A', 'B', 'C'];
+  const [parent, setParent] = useState(null); // 状態を管理する関数、定数parentの初期値はnull
+  console.log(parent); // droppableを取得している
+
+  const draggableMarkup = (
+    <Draggable id="draggable">Drag me</Draggable>
+  );
+  
+  function handleDragEnd(event) {
+    const {over} = event;
+    // ドロップできる領域にドロップした時、親としてドロップされる領域のidをセット
+    // それ以外はnullにする
+    setParent(over ? over.id : null);
+  }
   const [todo, setText] = useState(""); // テキストボックスの更新関数
   const [todoArr, setList] = useState([]); // やる事リストの更新関数
 
@@ -48,6 +65,18 @@ function App() {
           <Button onClick={listUp} className={classes.submitBtn}>追加</Button>
         </Flex>
         </div>
+
+        <DndContext onDragEnd={handleDragEnd}>
+          {parent === null ? draggableMarkup : null}
+          {containers.map((id) => (
+            // idを受け取ったらDroppableコンポーネントを更新
+            // useDroppable にpropsを渡す
+            <Droppable key={id} id={id}>
+              {parent === id ? draggableMarkup : 'Drop here'}
+            </Droppable>
+          ))}
+        </DndContext>
+
         <div className={classes.allTaskSpace}>{/* 未着手、着手中、完了で使用するスペース */}
           <div className={classes.toTaskSpace}>{/* 未着手のスペース */}
             <div className={classes.notTouch}>
