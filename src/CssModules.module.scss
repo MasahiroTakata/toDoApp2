@@ -1,3 +1,8 @@
+button{
+  display: block;
+  width: 100%;
+}
+
 li{
   list-style:none;
 }
@@ -22,7 +27,6 @@ li{
   margin-left: 8px;
   margin-bottom: 10px;
   border-radius: 6px;
-
 }
 
 .notTouchLetter{
@@ -31,15 +35,33 @@ li{
   line-height: 50px;
 }
 
+.starting{
+  height: 500px;
+  border: 1px solid #1b2538;
+	border-radius: 4px;
+  border-style: dotted;
+  background-color: #EEEEEE;
+  margin-left: 10px;
+}
+
+.end{
+  height: 500px;
+  border: 1px solid #1b2538;
+	border-radius: 4px;
+  border-style: dotted;
+  background-color: #EEEEEE;
+  margin-left: 10px;
+}
+
 .todoText{
   font: 15px/24px sans-serif;
 	box-sizing: border-box;
-	width: 50%;
+	width: 30%;
 	padding: 0.3em;
 	transition: 0.3s;
 	letter-spacing: 1px;
 	color: #000;
-	border: 1px solid #1b2538;
+	border: 1px solid darkgrey;
 	border-radius: 4px;
 }
 
@@ -48,15 +70,16 @@ li{
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: 320px;
+  max-width: 80px;
   padding: 8px 24px;
   font-family: sans-serif;
-  font-size: 16px;
   color: #fff;
   text-align: center;
   overflow-wrap: anywhere;
   background-color: #ffa500;
   border-radius: 27px;
+  cursor: pointer;
+  border: none;
 }
 
 .taskSpace{
@@ -76,6 +99,7 @@ li{
   line-height: 60px;
   font-size: 1.0em;
   padding-left: 2%;
+  text-align: left;
 }
 
 @media (any-hover: hover) {
@@ -83,7 +107,7 @@ li{
     transition: background-color 0.2s;
   }
 
-  .submitBtn:hover {
-    background-color: #54802f;
-  }
+  // .submitBtn:hover {
+  //   background-color: #54802f;
+  // }
 }
