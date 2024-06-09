@@ -29,7 +29,6 @@ const Column: FC<ColumnProps> = ({ id, title, cards, onAddTask}) => {
     onAddTask(id, taskName);
     setTaskName(''); // 入力フィールドをクリア
     handleClosePopup();
-    console.log(cards); // dataは更新されていない
   };
 
   return (
