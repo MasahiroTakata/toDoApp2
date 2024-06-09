@@ -38,11 +38,9 @@ function App() {
   const [columns, setColumns] = useState<ColumnType[]>(data); // タスクを配置するスペースの更新関数（初期値はdata）
   const handleAddTask = (columnId: string, taskName: string) => {
     if (taskName.trim() !== '') {
-      columnId = 'Column1';
-      console.log(taskName);
       setData(prevData => 
         prevData.map(column => 
-          column.id === 'Column1' 
+          column.id === columnId
             ? { ...column, cards: [...column.cards, { id: String(count), title: taskName }] }
             : column
         )
@@ -105,7 +103,6 @@ function App() {
         return overIndex >= 0 ? overIndex + modifier : overItems.length + 1;
       };
       return prevState.map((c) => { // ドラッグ中の並び順の更新
-        console.log(c); // ドラッグ中に他カラムと重なった時、全カラムの状態をプロパティで取得する
         if (c.id === activeColumn.id) {
           c.cards = activeItems.filter((i) => i.id !== activeId);
           return c;
