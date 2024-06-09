@@ -17,7 +17,7 @@ const Card: FC<CardType> = ({ id, title }) => {
     background: "white",
     padding: "10px",
     transform: CSS.Transform.toString(transform),
-    borderLeft: "6px solid #ffa500"
+    borderLeft: "6px solid #eb6100"
   };
   return (
     // attributes、listenersはDOMイベントを検知するために利用します。

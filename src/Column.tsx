@@ -1,16 +1,37 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
 import { useDroppable } from "@dnd-kit/core";
 import Card, { CardType } from "./Card";
+import classes from './CssModules.module.scss';
 
-export type ColumnType = {
+type ColumnProps = {
   id: string;
   title: string;
   cards: CardType[];
+  onAddTask: (columnId: string, taskName: string) => void;
 };
 // タスクをドロップするスペースの作成
-const Column: FC<ColumnType> = ({ id, title, cards }) => {
+const Column: FC<ColumnProps> = ({ id, title, cards, onAddTask}) => {
   const { setNodeRef } = useDroppable({ id: id });
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [taskName, setTaskName] = useState('');
+
+  const handleOpenPopup = () => {
+    setIsPopupOpen(true);
+  };
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+  };
+  const handleTaskNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTaskName(event.target.value);
+  };
+  const handleAddTaskClick = () => {
+    onAddTask(id, taskName);
+    setTaskName(''); // 入力フィールドをクリア
+    handleClosePopup();
+    console.log(cards); // dataは更新されていない
+  };
+
   return (
     // ソートを行うためのContextです。
     // strategyは4つほど存在しますが、今回は縦・横移動可能なリストを作るためrectSortingStrategyを採用
@@ -33,7 +54,23 @@ const Column: FC<ColumnType> = ({ id, title, cards }) => {
         >
           {title}
         </p>
-        {cards.map((card) => (
+        <button onClick={handleOpenPopup} className={classes.btnOrange}>＋タスクを追加</button>
+        {isPopupOpen && (
+        <div className={classes.popup}>
+          <div className={classes.popupInner}>
+            <h2>タスクを追加</h2>
+            <input
+              type="text"
+              value={taskName}
+              onChange={handleTaskNameChange}
+              placeholder="タスク名を入力"
+            />
+            <button onClick={handleAddTaskClick}>追加</button>
+            <button onClick={handleClosePopup}>キャンセル</button>
+          </div>
+        </div>
+      )}
+        {cards.map(card => (
           <Card key={card.id} id={card.id} title={card.title}></Card>
         ))}
       </div>

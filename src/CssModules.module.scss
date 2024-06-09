@@ -10,6 +10,7 @@ li{
 .allTaskSpace{
   display: flex;
 }
+
 .container{
   padding: 8px;
   margin: 8px;
@@ -65,26 +66,9 @@ li{
 	border-radius: 4px;
 }
 
-.submitBtn{
-  margin-left:1%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  max-width: 80px;
-  padding: 8px 24px;
-  font-family: sans-serif;
-  color: #fff;
-  text-align: center;
-  overflow-wrap: anywhere;
-  background-color: #ffa500;
-  border-radius: 27px;
-  cursor: pointer;
-  border: none;
-}
-
 .taskSpace{
   height: 60px;
-  border-left: 6px solid #ffa500;
+  border-left: 6px solid #eb6100;
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
@@ -102,12 +86,50 @@ li{
   text-align: left;
 }
 
-@media (any-hover: hover) {
-  .submitBtn {
-    transition: background-color 0.2s;
-  }
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  // .submitBtn:hover {
-  //   background-color: #54802f;
-  // }
+.popupInner {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.btnOrange {
+  color: #fff;
+  background-color: #eb6100;
+  font-weight: 700;
+  line-height: 1.5;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  border-radius: 0.5rem;
+  border: none;
+  width: 90%;
+  margin-bottom: 7%;
+}
+
+.btnOrange:hover {
+  color: #fff;
+  background: #f56500;
 }
