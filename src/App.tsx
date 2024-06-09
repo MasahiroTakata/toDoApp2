@@ -10,13 +10,10 @@ import { // ドラッグ&ドロップで必要なモジュールをインポー�
   DragOverEvent
 } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Column from "./Column";
-import classes from './CssModules.module.scss';
 
 function App() {
-  // 入力値を保持するためのステート
-  const [inputValue, setInputValue] = useState<string>('');
   const [count, setCount] = useState<number>(1); // 入力したタスクにIDを振るためのcount
   const [data, setData] = useState<ColumnType[]>([
     {
@@ -39,26 +36,18 @@ function App() {
     }
   ]);
   const [columns, setColumns] = useState<ColumnType[]>(data); // タスクを配置するスペースの更新関数（初期値はdata）
-  // テキストボックスの入力が変更されたときのハンドラー
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-  };
-  // ボタンが押されたときのハンドラー
-  const handleButtonClick = () => {
-    if (inputValue.trim() !== '') {
-      const newCard: CardType = {
-        id: String(count), // 一意のIDを生成
-        title: inputValue
-      };
-      setData(prevData =>
-        prevData.map(column =>
-          column.id === 'Column1'
-            ? { ...column, cards: [...column.cards, newCard] }
+  const handleAddTask = (columnId: string, taskName: string) => {
+    if (taskName.trim() !== '') {
+      columnId = 'Column1';
+      console.log(taskName);
+      setData(prevData => 
+        prevData.map(column => 
+          column.id === 'Column1' 
+            ? { ...column, cards: [...column.cards, { id: String(count), title: taskName }] }
             : column
         )
       );
       setCount(count + 1);
-      setInputValue(''); // テキストボックスを空にする
     }
   };
 
@@ -176,27 +165,20 @@ function App() {
       onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}
     >
-      <div className={classes.container}>
-        <input
-          type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-          placeholder="今日やること"
-          className={classes.todoText}
-        />
-        <button onClick={handleButtonClick} className={classes.submitBtn}>追加</button>
-      </div>
       <div
         className="App"
         style={{ display: "flex", flexDirection: "row", padding: "20px" }}
       >
         {columns.map((column) => (
-          <Column
-            key={column.id}
-            id={column.id}
-            title={column.title}
-            cards={column.cards}
-          ></Column>
+          <React.Fragment key={column.id}>
+            <Column
+              key={column.id}
+              id={column.id}
+              title={column.title}
+              cards={column.cards}
+              onAddTask={handleAddTask}
+            ></Column>
+          </React.Fragment>
         ))}
       </div>
     </DndContext>
