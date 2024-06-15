@@ -58,14 +58,19 @@ const Column: FC<ColumnProps> = ({ id, title, cards, onAddTask}) => {
         <div className={classes.popup}>
           <div className={classes.popupInner}>
             <h2>タスクを追加</h2>
-            <input
-              type="text"
-              value={taskName}
-              onChange={handleTaskNameChange}
-              placeholder="タスク名を入力"
-            />
-            <button onClick={handleAddTaskClick}>追加</button>
-            <button onClick={handleClosePopup}>キャンセル</button>
+            <h5>{title}</h5>
+            <div className={classes.cpIptxt}>
+              <label className={classes.ef}>
+              <input
+                type="text"
+                value={taskName}
+                onChange={handleTaskNameChange}
+                placeholder="タスク名を入力"
+              />
+              </label>
+            </div>
+            <button onClick={handleAddTaskClick} className={classes.popupBtn}>追加</button>
+            <button onClick={handleClosePopup} className={classes.popupBtn}>キャンセル</button>
           </div>
         </div>
       )}

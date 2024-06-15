@@ -103,6 +103,8 @@ li{
   padding: 20px;
   border-radius: 5px;
   text-align: center;
+  height: auto;
+  width: 210px;
 }
 
 .btnOrange {
@@ -132,4 +134,33 @@ li{
 .btnOrange:hover {
   color: #fff;
   background: #f56500;
+}
+
+.cpIptxt {
+	position: relative;
+	margin: 20px 3%;
+}
+
+.cpIptxt input[type='text'] {
+	font: 15px/24px sans-serif;
+	box-sizing: border-box;
+	width: 100%;
+	padding: 0.3em;
+	transition: 0.3s;
+	letter-spacing: 1px;
+	color: #1b2538;
+	border: 1px solid #1b2538;
+	border-radius: 4px;
+}
+
+.ef input[type='text']:focus {
+	border: 1px solid #eb6100;
+	outline: none;
+	box-shadow: 0 0 5px 1px rgba(218,60,65, .5);
+}
+
+.popupBtn{
+  width: 90%;
+  margin: auto;
+  margin-bottom: 4%;
 }
