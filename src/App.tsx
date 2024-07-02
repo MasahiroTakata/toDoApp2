@@ -120,7 +120,6 @@ function App() {
     const overId = over ? String(over.id) : null; // ドラッグしたカードID（ドラッグして重なった時も、重ねられたカードIDも表示される）
     const activeColumn = findColumn(activeId); // ドラッグしたカードが所属するカラム（ドラッグ前にカードが所属していたカラムIDも呼ばれる）のオブジェクト
     const overColumn = findColumn(overId); // ドラッグで重なったカラムのオブジェクト
-
     if (!activeColumn || !overColumn || activeColumn === overColumn) {
       return null;
     }
@@ -150,6 +149,7 @@ function App() {
         }
       });
     });
+    saveToLocalStorage("task", data, count);
   };
   // ドラッグした後の並び順の更新
   const handleDragEnd = (event: DragEndEvent) => {
@@ -167,7 +167,7 @@ function App() {
     const overIndex = overColumn.cards.findIndex((i) => i.id === overId);
 
     if (activeIndex !== overIndex) {
-      setColumns((prevState) => {
+      setColumns((prevState) => { // 同じステータス内で順番が変わった時に呼ばれてる
         return prevState.map((column) => {
           if (column.id === activeColumn.id) {
             column.cards = arrayMove(overColumn.cards, activeIndex, overIndex);
@@ -177,6 +177,7 @@ function App() {
           }
         });
       });
+      saveToLocalStorage("task", data, count);
     }
   };
 
