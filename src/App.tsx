@@ -13,6 +13,18 @@ import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import React, { useState, useEffect, useRef } from 'react';
 import Column from "./Column";
 
+// 型宣言によるオブジェクトの生成
+type CardType = {
+  id: string;
+  title: string;
+};
+
+type ColumnType = {
+  id: string;
+  title: string;
+  cards: CardType[];
+};
+
 function App() {
   // ブラウザに保存したデータを取り出す
   const getComplexDataFromLocalStorage = (key: string): ColumnType[] | [] => {
@@ -29,8 +41,8 @@ function App() {
   const counter = getComplexDataFromLocalCounter("counter");
   // localStorage.removeItem("task");
   // localStorage.removeItem("counter");
-  const [count, setCount] = useState<number>(1); // 入力したタスクにIDを振るためのcount
-  var [data, setData] = useState<ColumnType[]>([
+  const [count, setCount] = useState<number>(Number(counter)); // 入力したタスクにIDを振るためのcount
+  var [data, setData] = useState<ColumnType[]>(savedData.length ? savedData : [
     {
       id: "Column1",
       title: "未着手",
@@ -50,7 +62,7 @@ function App() {
       ]
     }
   ]);
-  useEffect(() => {
+  useEffect(() => { // 依存配列を空にすれば、一回しか呼ばれない（つまり、初期表示のみ呼ばれる）
     if(counter !== 1){
       setData(savedData);
       setCount(Number(counter));
@@ -67,7 +79,7 @@ function App() {
             : column
         )
       );
-      setCount(count + 1);
+      setCount(prevCount => prevCount + 1); // prevをつけることで、countの前の値を読み込んでくれてるっぽい
     }
   };
   // ブラウザに保存する（ブラウザを閉じても保持する）
@@ -76,27 +88,16 @@ function App() {
     localStorage.setItem("counter", JSON.stringify(counter));
   };
   const isFirstRender = useRef(true);
-  useEffect(() => { // 値が変わったタイミングで呼ばれる関数
+  useEffect(() => { // dataとcountが更新されたら呼ばれる
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return; 
     }
     setColumns(data);
-    saveToLocalStorage("task", data, count);
-  }, [count]);
+    localStorage.setItem("task", JSON.stringify(data));
+    localStorage.setItem("counter", String(count));
+  }, [data, count]);
 
-  // 型宣言によるオブジェクトの生成
-  type CardType = {
-    id: string;
-    title: string;
-  };
-  
-  type ColumnType = {
-    id: string;
-    title: string;
-    cards: CardType[];
-  };
-  
   const findColumn = (unique: string | null) => { // uniqueという引数がstring型もしくはnull
     if (!unique) {
       return null;
