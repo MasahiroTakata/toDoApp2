@@ -11,92 +11,66 @@ import { // ドラッグ&ドロップで必要なモジュールをインポー�
 } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import React, { useState, useEffect, useRef } from 'react';
-import Column from "./Column";
+import Column, { ColumnType } from "./Column";
+import { saveToLocalStorage, getComplexDataFromLocalStorage, getComplexDataFromLocalCounter} from './utils/localStorage';
 
 function App() {
-  // ブラウザに保存したデータを取り出す
-  const getComplexDataFromLocalStorage = (key: string): ColumnType[] | [] => {
-    const columnData = localStorage.getItem(key);
-    return columnData ? JSON.parse(columnData) : [];
-  };
-  const getComplexDataFromLocalCounter = (key: string): Number | null => {
-    const counter = localStorage.getItem(key);
-    var num_counter = Number(counter);
-    return num_counter ? num_counter : 1;
-  };
-
-  const savedData = getComplexDataFromLocalStorage("task");
-  const counter = getComplexDataFromLocalCounter("counter");
-  // localStorage.removeItem("task");
-  // localStorage.removeItem("counter");
-  const [count, setCount] = useState<number>(1); // 入力したタスクにIDを振るためのcount
-  var [data, setData] = useState<ColumnType[]>([
-    {
-      id: "Column1",
-      title: "未着手",
-      cards: [
-      ]
-    },
-    {
-      id: "Column2",
-      title: "着手中",
-      cards: [
-      ]
-    },
-    {
-      id: "Column3",
-      title: "完了",
-      cards: [
-      ]
-    }
-  ]);
-  useEffect(() => {
-    if(counter !== 1){
-      setData(savedData);
-      setCount(Number(counter));
-      setColumns(data);
-    }
-  }, []);
-  const [columns, setColumns] = useState<ColumnType[]>(data); // タスクを配置するスペースの更新関数（初期値はdata）
   const handleAddTask = (columnId: string, taskName: string) => {
     if (taskName.trim() !== '') {
-      setData(prevData => 
+      setSavedData(prevData => 
         prevData.map(column => 
           column.id === columnId
             ? { ...column, cards: [...column.cards, { id: String(count), title: taskName }] }
             : column
         )
       );
-      setCount(count + 1);
+      setCounter(prevCount => prevCount + 1); // prevをつけることで、countの前の値を読み込んでくれてるっぽい
     }
   };
-  // ブラウザに保存する（ブラウザを閉じても保持する）
-  const saveToLocalStorage = (key: string, value: ColumnType[], counter: number) => {
-    localStorage.setItem(key, JSON.stringify(value));
-    localStorage.setItem("counter", JSON.stringify(counter));
-  };
+
+  const savedData = getComplexDataFromLocalStorage("task");
+  const counter = getComplexDataFromLocalCounter("counter");
+  // localStorage.removeItem("task");
+  // localStorage.removeItem("counter");
+  const [count, setCounter] = useState<number>(Number(counter)); // 入力したタスクにIDを振るためのcount
+  const [data, setSavedData] = useState<ColumnType[]>(savedData.length ? savedData : [
+    {
+      id: "Column1",
+      title: "未着手",
+      cards: [],
+      onAddTask: handleAddTask,
+    },
+    {
+      id: "Column2",
+      title: "着手中",
+      cards: [],
+      onAddTask: handleAddTask,
+    },
+    {
+      id: "Column3",
+      title: "完了",
+      cards: [],
+      onAddTask: handleAddTask,
+    }
+  ]);
+  useEffect(() => { // 依存配列を空にすれば、一回しか呼ばれない（つまり、初期表示のみ呼ばれる）
+    if(counter !== 1){
+      setSavedData(savedData);
+      setCounter(Number(counter));
+      setColumns(data);
+    }
+  }, []);
+  const [columns, setColumns] = useState<ColumnType[]>(data); // タスクを配置するスペースの更新関数（初期値はdata）
   const isFirstRender = useRef(true);
-  useEffect(() => { // 値が変わったタイミングで呼ばれる関数
+  useEffect(() => { // dataとcountが更新されたら呼ばれる
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return; 
     }
     setColumns(data);
     saveToLocalStorage("task", data, count);
-  }, [count]);
+  }, [data, count]);
 
-  // 型宣言によるオブジェクトの生成
-  type CardType = {
-    id: string;
-    title: string;
-  };
-  
-  type ColumnType = {
-    id: string;
-    title: string;
-    cards: CardType[];
-  };
-  
   const findColumn = (unique: string | null) => { // uniqueという引数がstring型もしくはnull
     if (!unique) {
       return null;

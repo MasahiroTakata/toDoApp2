@@ -3,15 +3,14 @@ import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
 import { useDroppable } from "@dnd-kit/core";
 import Card, { CardType } from "./Card";
 import classes from './CssModules.module.scss';
-
-type ColumnProps = {
+export type ColumnType = {
   id: string;
   title: string;
   cards: CardType[];
   onAddTask: (columnId: string, taskName: string) => void;
 };
 // タスクをドロップするスペースの作成
-const Column: FC<ColumnProps> = ({ id, title, cards, onAddTask}) => {
+const Column: FC<ColumnType> = ({ id, title, cards, onAddTask}) => {
   const { setNodeRef } = useDroppable({ id: id });
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [taskName, setTaskName] = useState('');
